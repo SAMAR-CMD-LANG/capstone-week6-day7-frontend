@@ -1,19 +1,5 @@
-const getApiUrl = () => {
-    // Use environment variable if set, otherwise fallback based on environment
-    if (process.env.NEXT_PUBLIC_API_URL) {
-        return process.env.NEXT_PUBLIC_API_URL;
-    }
-
-    // Fallback for different environments
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://capstone-week-6-day-7-backend.onrender.com';
-    }
-
-    return 'http://localhost:5000';
-};
-
 export async function api(path, method = 'GET', body) {
-    const res = await fetch(`${getApiUrl()}${path}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
         method,
         credentials: "include",
         headers: { 'Content-Type': "application/json" },
