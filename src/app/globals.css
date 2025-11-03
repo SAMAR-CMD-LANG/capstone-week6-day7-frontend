@@ -530,6 +530,36 @@ body {
   background-clip: text;
 }
 
+/* Divider with text styling */
+.divider-with-text {
+  text-align: center;
+  margin: 30px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider-with-text::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e1e8ed;
+  z-index: 1;
+}
+
+.divider-with-text span {
+  background: white;
+  padding: 0 20px;
+  color: #666;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 2;
+}
+
 /* Smooth transitions for all interactive elements */
 * {
   transition: all 0.3s ease;

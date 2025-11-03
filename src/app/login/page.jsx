@@ -205,27 +205,8 @@ function LoginForm() {
           </div>
 
           {/* Divider */}
-          <div style={{
-            textAlign: 'center',
-            margin: '30px 0',
-            position: 'relative'
-          }}>
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '0',
-              right: '0',
-              height: '1px',
-              background: '#e1e8ed'
-            }}></div>
-            <span style={{
-              background: 'white',
-              padding: '0 20px',
-              color: '#666',
-              fontSize: '0.9rem'
-            }}>
-              or continue with
-            </span>
+          <div className="divider-with-text">
+            <span>or continue with</span>
           </div>
 
           {/* Google OAuth Button */}

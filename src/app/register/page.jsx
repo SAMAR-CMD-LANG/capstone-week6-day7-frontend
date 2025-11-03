@@ -80,12 +80,12 @@ export default function RegisterPage() {
     }
   };
 
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-  
+
     if (!name.trim()) {
       setError("Please enter your name");
       return;
@@ -120,7 +120,7 @@ export default function RegisterPage() {
 
     try {
       await register(name.trim(), email.trim(), password);
-     
+
       router.push("/posts");
     } catch (err) {
       setError(err.message || "Registration failed. Please try again.");
@@ -129,9 +129,9 @@ export default function RegisterPage() {
     }
   };
 
- 
+
   const handleGoogleSignup = () => {
-    
+
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
   };
 
@@ -147,9 +147,9 @@ export default function RegisterPage() {
         </p>
       </div>
 
-    
+
       <div className="form-container">
-       
+
         {error && (
           <div className="error">
             {error}
@@ -157,7 +157,7 @@ export default function RegisterPage() {
         )}
 
         <form onSubmit={handleSubmit}>
-          
+
           <div className="form-group">
             <label htmlFor="name" className="form-label">
               👤 Full Name
@@ -180,7 +180,7 @@ export default function RegisterPage() {
             )}
           </div>
 
-     
+
           <div className="form-group">
             <label htmlFor="email" className="form-label">
               📧 Email Address
@@ -202,7 +202,7 @@ export default function RegisterPage() {
             )}
           </div>
 
-          
+
           <div className="form-group">
             <label htmlFor="password" className="form-label">
               🔒 Password
@@ -241,7 +241,7 @@ export default function RegisterPage() {
                 {passwordError}
               </div>
             )}
-           
+
             {password && !passwordError && (
               <div style={{ fontSize: '0.9rem', marginTop: '5px', color: '#4ecdc4' }}>
                 ✅ Password looks good!
@@ -249,7 +249,7 @@ export default function RegisterPage() {
             )}
           </div>
 
-          
+
           <div className="form-group">
             <label htmlFor="confirmPassword" className="form-label">
               🔒 Confirm Password
@@ -276,7 +276,7 @@ export default function RegisterPage() {
             )}
           </div>
 
-         
+
           <div className="form-group">
             <button
               type="submit"
@@ -293,31 +293,12 @@ export default function RegisterPage() {
           </div>
         </form>
 
-        
-        <div style={{
-          textAlign: 'center',
-          margin: '30px 0',
-          position: 'relative'
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '0',
-            right: '0',
-            height: '1px',
-            background: '#e1e8ed'
-          }}></div>
-          <span style={{
-            background: 'white',
-            padding: '0 20px',
-            color: '#666',
-            fontSize: '0.9rem'
-          }}>
-            or continue with
-          </span>
+
+        <div className="divider-with-text">
+          <span>or continue with</span>
         </div>
 
-        
+
         <button
           type="button"
           onClick={handleGoogleSignup}
@@ -345,7 +326,7 @@ export default function RegisterPage() {
           Continue with Google
         </button>
 
-       
+
         <div style={{
           textAlign: 'center',
           marginTop: '30px',
@@ -362,7 +343,7 @@ export default function RegisterPage() {
           </Link>
         </div>
 
-        
+
         <div style={{
           textAlign: 'center',
           marginTop: '20px',
