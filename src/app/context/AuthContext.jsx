@@ -14,10 +14,22 @@ export const AuthProvider = ({ children }) => {
       const data = await api("/auth/me");
       console.log("User fetch response:", data);
 
-      setUser(data.user || null);
+      if (data.user) {
+        setUser(data.user);
+        console.log("User set successfully:", data.user.email);
+      } else {
+        console.log("No user data received:", data);
+        setUser(null);
+      }
     } catch (err) {
       console.log("Failed to fetch user:", err.message);
       console.log("Error details:", err);
+
+      // Log additional debug info if available
+      if (err.response) {
+        console.log("Error response:", err.response);
+      }
+
       setUser(null);
     } finally {
       setLoading(false);

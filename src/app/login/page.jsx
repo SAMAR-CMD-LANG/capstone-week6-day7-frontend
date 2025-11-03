@@ -1,12 +1,13 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -15,6 +16,44 @@ export default function LoginPage() {
   // Enhanced form validation
   const [emailError, setEmailError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Check for OAuth errors in URL parameters
+  useEffect(() => {
+    const urlError = searchParams.get('error');
+    const details = searchParams.get('details');
+
+    if (urlError) {
+      let errorMessage = "Authentication failed. Please try again.";
+
+      switch (urlError) {
+        case 'oauth_failed':
+          errorMessage = "Google sign-in was cancelled or failed. Please try again.";
+          break;
+        case 'no_user_data':
+          errorMessage = "Unable to retrieve your Google account information. Please try again.";
+          break;
+        case 'oauth_callback_failed':
+          errorMessage = details
+            ? `Authentication failed: ${decodeURIComponent(details)}`
+            : "There was an issue completing your Google sign-in. Please try again.";
+          break;
+        case 'migration_required':
+          errorMessage = "Your account needs to be updated. Please contact support.";
+          break;
+        case 'account_exists':
+          errorMessage = "An account with this email already exists. Please try signing in with your password.";
+          break;
+        default:
+          errorMessage = `Authentication error: ${urlError}`;
+      }
+
+      setError(errorMessage);
+
+      // Clear the error from URL after showing it
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
+    }
+  }, [searchParams]);
 
   // Email validation with real-time feedback
   const handleEmailChange = (e) => {

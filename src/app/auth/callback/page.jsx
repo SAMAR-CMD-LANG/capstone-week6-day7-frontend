@@ -13,19 +13,55 @@ export default function AuthCallbackPage() {
         const handleCallback = async () => {
             try {
                 setStatus("processing");
+                console.log("Auth callback page - starting authentication check");
 
-                // Wait a moment for cookie to be set
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // Check URL parameters for immediate errors
+                const urlParams = new URLSearchParams(window.location.search);
+                const error = urlParams.get('error');
+                const success = urlParams.get('success');
 
-                // Refresh user data to check if authentication was successful
-                await refreshUser();
+                if (error) {
+                    console.error("OAuth error from URL:", error);
+                    setStatus("error");
+                    setTimeout(() => {
+                        router.push(`/login?error=${error}`);
+                    }, 3000);
+                    return;
+                }
 
-                setStatus("success");
+                // Wait longer for cookie to be properly set across domains
+                console.log("Waiting for cookie to be set...");
+                await new Promise(resolve => setTimeout(resolve, 2000));
 
-                // Redirect to posts page after successful authentication
-                setTimeout(() => {
-                    router.push("/posts");
-                }, 2000);
+                // Try multiple times to refresh user data
+                let attempts = 0;
+                const maxAttempts = 3;
+                let authSuccess = false;
+
+                while (attempts < maxAttempts && !authSuccess) {
+                    try {
+                        console.log(`Authentication attempt ${attempts + 1}/${maxAttempts}`);
+                        await refreshUser();
+                        authSuccess = true;
+                        console.log("Authentication successful");
+                    } catch (refreshError) {
+                        console.warn(`Authentication attempt ${attempts + 1} failed:`, refreshError);
+                        attempts++;
+                        if (attempts < maxAttempts) {
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                    }
+                }
+
+                if (authSuccess) {
+                    setStatus("success");
+                    // Redirect to posts page after successful authentication
+                    setTimeout(() => {
+                        router.push("/posts");
+                    }, 2000);
+                } else {
+                    throw new Error("Failed to authenticate after multiple attempts");
+                }
 
             } catch (error) {
                 console.error("Auth callback error:", error);
@@ -33,7 +69,7 @@ export default function AuthCallbackPage() {
 
                 // Redirect to login page after error
                 setTimeout(() => {
-                    router.push("/login?error=oauth_failed");
+                    router.push("/login?error=oauth_callback_failed");
                 }, 3000);
             }
         };
