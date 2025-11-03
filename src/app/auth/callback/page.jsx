@@ -32,16 +32,30 @@ export default function AuthCallbackPage() {
 
                 // If we have a token in the URL, store it in localStorage as a fallback
                 if (tokenFromUrl) {
-                    console.log("Token received from URL, storing as fallback");
-                    localStorage.setItem('auth_token_fallback', tokenFromUrl);
+                    console.log("Token received from URL (encoded):", tokenFromUrl);
+
+                    // Decode the token since it was URL encoded on the backend
+                    const decodedToken = decodeURIComponent(tokenFromUrl);
+                    console.log("Token decoded, length:", decodedToken.length);
+                    console.log("Token preview:", decodedToken.substring(0, 50) + "...");
+
+                    localStorage.setItem('auth_token_fallback', decodedToken);
+                    console.log("Token stored in localStorage successfully");
+
                     // Clear the token from URL for security
                     const newUrl = window.location.pathname;
                     window.history.replaceState({}, '', newUrl);
-                }
 
-                // Wait longer for cookie to be properly set across domains
-                console.log("Waiting for cookie to be set...");
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                    // If we have a token from URL, we can try authentication immediately
+                    console.log("Token available, proceeding with authentication");
+                } else {
+                    console.log("No token found in URL parameters");
+                    console.log("URL search params:", window.location.search);
+
+                    // Wait longer for cookie to be properly set across domains
+                    console.log("Waiting for cookie to be set...");
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
 
                 // Try multiple times to refresh user data
                 let attempts = 0;

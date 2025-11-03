@@ -13,6 +13,10 @@ export async function api(path, method = 'GET', body) {
         if (fallbackToken) {
             headers['Authorization'] = `Bearer ${fallbackToken}`;
             console.log("Using fallback token from localStorage");
+            console.log("Fallback token length:", fallbackToken.length);
+            console.log("Fallback token preview:", fallbackToken.substring(0, 50) + "...");
+        } else {
+            console.log("No fallback token found in localStorage");
         }
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
@@ -48,11 +52,11 @@ export async function api(path, method = 'GET', body) {
             throw error;
         }
 
-        // If we successfully used the fallback token, we can clear it since cookies should work now
-        if (fallbackToken && res.ok && path === '/auth/me') {
-            console.log("Fallback token worked, clearing it as cookies should be set now");
-            localStorage.removeItem('auth_token_fallback');
-        }
+        // Don't clear the fallback token immediately - keep it until we're sure cookies work
+        // if (fallbackToken && res.ok && path === '/auth/me') {
+        //     console.log("Fallback token worked, clearing it as cookies should be set now");
+        //     localStorage.removeItem('auth_token_fallback');
+        // }
 
         return data;
     } catch (error) {
