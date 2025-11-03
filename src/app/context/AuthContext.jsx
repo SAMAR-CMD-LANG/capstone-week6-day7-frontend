@@ -21,6 +21,12 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  // Expose fetchUser for manual refresh
+  const refreshUser = async () => {
+    setLoading(true);
+    await fetchUser();
+  };
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -63,7 +69,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
