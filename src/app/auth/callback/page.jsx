@@ -15,10 +15,11 @@ export default function AuthCallbackPage() {
                 setStatus("processing");
                 console.log("Auth callback page - starting authentication check");
 
-                // Check URL parameters for immediate errors
+                // Check URL parameters for immediate errors and token fallback
                 const urlParams = new URLSearchParams(window.location.search);
                 const error = urlParams.get('error');
                 const success = urlParams.get('success');
+                const tokenFromUrl = urlParams.get('token');
 
                 if (error) {
                     console.error("OAuth error from URL:", error);
@@ -27,6 +28,15 @@ export default function AuthCallbackPage() {
                         router.push(`/login?error=${error}`);
                     }, 3000);
                     return;
+                }
+
+                // If we have a token in the URL, store it in localStorage as a fallback
+                if (tokenFromUrl) {
+                    console.log("Token received from URL, storing as fallback");
+                    localStorage.setItem('auth_token_fallback', tokenFromUrl);
+                    // Clear the token from URL for security
+                    const newUrl = window.location.pathname;
+                    window.history.replaceState({}, '', newUrl);
                 }
 
                 // Wait longer for cookie to be properly set across domains
