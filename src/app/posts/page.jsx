@@ -1,7 +1,7 @@
 "use client";
 
 import ProtectedRoute from "@/utils/ProtectedRoute";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 import { api } from "@/lib/api";
@@ -10,7 +10,16 @@ import Link from "next/link";
 export default function PostsPage() {
   return (
     <ProtectedRoute>
-      <PostsContent />
+      <Suspense fallback={
+        <div className="container">
+          <div className="loading">
+            <div style={{ fontSize: '2rem', marginBottom: '10px' }}>⏳</div>
+            Loading posts...
+          </div>
+        </div>
+      }>
+        <PostsContent />
+      </Suspense>
     </ProtectedRoute>
   );
 }
