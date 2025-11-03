@@ -10,11 +10,14 @@ export const AuthProvider = ({ children }) => {
 
   async function fetchUser() {
     try {
+      console.log("Fetching user from:", `${process.env.NEXT_PUBLIC_API_URL}/auth/me`);
       const data = await api("/auth/me");
+      console.log("User fetch response:", data);
 
       setUser(data.user || null);
     } catch (err) {
       console.log("Failed to fetch user:", err.message);
+      console.log("Error details:", err);
       setUser(null);
     } finally {
       setLoading(false);
