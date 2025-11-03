@@ -389,34 +389,34 @@ body {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .hero-actions {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .search-container {
     flex-direction: column;
   }
-  
+
   .pagination {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .main-content {
     margin: 10px;
     padding: 20px;
@@ -429,6 +429,7 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -440,12 +441,29 @@ body {
 }
 
 /* Utility Classes */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-.mb-20 { margin-bottom: 20px; }
-.mt-20 { margin-top: 20px; }
-.p-20 { padding: 20px; }
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.p-20 {
+  padding: 20px;
+}
 
 /* Additional styles for enhanced form validation and interactions */
 .error-border {
@@ -473,8 +491,13 @@ body {
 
 /* Loading spinner animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-spinner {
@@ -496,6 +519,7 @@ body {
   margin-bottom: 20px;
   text-align: center;
   font-weight: 500;
+  animation: fadeInUp 0.5s ease-out;
 }
 
 /* Enhanced card hover effects */
@@ -528,16 +552,16 @@ body {
   .hero-title {
     font-size: 2rem !important;
   }
-  
+
   .form-container {
     padding: 25px 20px;
     margin: 10px;
   }
-  
+
   .features-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .btn {
     width: 100%;
     margin-bottom: 10px;
@@ -546,13 +570,14 @@ body {
 
 /* Print styles for better document printing */
 @media print {
+
   .navbar,
   .btn,
   .search-container,
   .pagination {
     display: none;
   }
-  
+
   .main-content {
     background: white;
     box-shadow: none;
@@ -566,12 +591,12 @@ body {
   .card {
     border: 2px solid #333;
   }
-  
+
   .btn-primary {
     background: #000;
     border: 2px solid #000;
   }
-  
+
   .btn-outline {
     border: 2px solid #000;
     color: #000;
